@@ -299,15 +299,23 @@ server {
 
 ---
 ## kubernetes集群部署
+#### 下载安装包
 - 下载二进制安装包
 
-服务端
+- 服务端
 URL: `https://dl.k8s.io/v1.15.2/kubernetes-server-linux-amd64.tar.gz`
-sha256 校验码： `faa734636ca18ae8786552eab317c0288cf958525df9236ce9b734d5b13809c002bb1538763bc0f8cbb2efa4340152f2cc78630e6158ed7edee163ac53570e22`
-客户端
+```bash
+#sha256 校验码： 
+faa734636ca18ae8786552eab317c0288cf958525df9236ce9b734d5b13809c002bb1538763bc0f8cbb2efa4340152f2cc78630e6158ed7edee163ac53570e22
+```
+- 客户端
 URL: `https://dl.k8s.io/v1.15.2/kubernetes-client-linux-amd64.tar.gz`
-sha256 校验码： `8a5f25e74a317169687abd65c499fc4f7cc2ff0824a7a9830acd38bfeec9923d8a0d653c3b1eec147c44a853ceeaa62bbb741f17e69b4df614008e53a2fe5b08`
+```bash
+#sha256 校验码： 
+8a5f25e74a317169687abd65c499fc4f7cc2ff0824a7a9830acd38bfeec9923d8a0d653c3b1eec147c44a853ceeaa62bbb741f17e69b4df614008e53a2fe5b08
+```
 
+#### 安装命令行工具
 - 安装kubernetes二进制文件{kubectl,kubelet,kubeadm}
 
 ```bash
@@ -345,7 +353,7 @@ cp /root/kubeadm/audit-policy.yml /opt/kubernetes/conf/
 ```
 > 可选，如不需要开启apiserver审计，需修改下面的安装脚本,去掉审计相关配置
 
-- 下载镜像 (只需要在一台机器push镜像)
+#### 下载镜像 (只需要在一台机器push镜像)
 
 因官方镜像需翻墙，这里通过`docker save`及`docer load`来导入镜像
 ```bash
@@ -384,6 +392,7 @@ docker images |grep -E '^192.168.76.104/k8s.gcr.io'
 ```
 > 如果不使用私有仓库拉取镜像，可以将镜像`docker load`手动载入到每个节点。
 
+#### 生成配置及证书文件
 - 生成证书
 
 通过脚本`k8s-cluster-init.sh`生成所有master节点的证书
@@ -482,6 +491,7 @@ sa.pub
 ```
 
 - 配置 kubelet 启动服务(Master 节点)
+
 ```bash
 cat > /usr/lib/systemd/system/kubelet.service <<"EOF"
 [Unit]
@@ -608,7 +618,7 @@ k8s-cluster-init.yaml  pki
 Created symlink from /etc/systemd/system/multi-user.target.wants/kubelet.service to /usr/lib/systemd/system/kubelet.service.
 ```
 
-- 配置其余2个master节点
+#### 配置其余2个master节点
 登录`节点k8s-test-102`开始配置
 ```bash
 yum install socat -y
