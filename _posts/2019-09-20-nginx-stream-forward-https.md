@@ -23,8 +23,7 @@ tags:                                 # 本篇博文的标签，该标签将在a
 1. 用户能正常访问业务服务器
 用户 -> 真实服务器(test.example.com,10.10.10.10)
 
-2. 用户访问异常,则会在app请求备用线路域名(app切换域名需由研发实现)
-用户 -> 代理节点(mlp-00-test.example.com,135.10.10.10) -> 真实web服务器(test.example.com,10.10.10.10)
+2. 用户访问异常,则会在app请求备用线路域名(app切换域名需由研发实现)用户 -> 代理节点(mlp-00-test.example.com,135.10.10.10) -> 真实web服务器(test.example.com,10.10.10.10)
 
 > 两种方式都能访问,由业务APP自行选择线路
 
@@ -36,11 +35,10 @@ tags:                                 # 本篇博文的标签，该标签将在a
 ## 实现细节
 - 代理节点安装nginx
 
-nginx 需安装模块`stream`及`ngx_stream_ssl_preread_module `ngx_stream_ssl_preread_module 模块（1.11.5）允许从 ClientHello 
-消息中提取信息而不终止SSL / TLS，例如，通过 SNI 请求的服务器名称或 ALPN 中公布的协议。默认情况下不构建此模块，
+nginx 需安装模块`stream`及`ngx_stream_ssl_preread_module `ngx_stream_ssl_preread_module 模块（1.11.5）允许从 ClientHello 消息中提取信息而不终止SSL / TLS，例如，通过 SNI 请求的服务器名称或 ALPN 中公布的协议。默认情况下不构建此模块，
 应使用 `--with-stream_ssl_preread_module` 配置参数启用它。
 
-```
+```bash
 /opt/nginx/sbin/nginx  -V
 nginx version: nginx/1.12.2
 built by gcc 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC) 
@@ -50,7 +48,7 @@ configure arguments: --prefix=/opt/nginx --with-http_ssl_module --with-pcre=/tmp
 ```
 
 nginx.conf 配置stream的支持:
-```
+```conf
 stream{
 
     log_format  main  '$remote_addr - [$time_local] $connection '
@@ -64,7 +62,7 @@ stream{
 }
 ```
 stream/proxy.conf 如下:
-```
+```conf
 #$ssl_preread_server_name #通过SNI请求的服务器名称
 map $ssl_preread_server_name $real_server {
     ~^mlp-[0-9][0-9]-test.example.com  apollo;
@@ -96,7 +94,7 @@ server {
 - 真实服务器配置支持备用域名请求
 
 新增配置如下：
-```
+```conf
 server {
             listen 443;
             server_name    test.example.com ~^mlp-[0-9][0-9]-test.example.com;
@@ -113,13 +111,13 @@ server {
 	    }
 ```
 
-> 需注意SSL证书也要支持备用域名的请求，这里使用率泛解析证书
+> 需注意SSL证书也要支持备用域名的请求，这里使用泛解析证书
 
 - 将备用域名的DNS解析指向代理节点
 
 现在可以将备用域名`mlp-00-test.example.com` 指向代理节点了
 解析后进行测试
-```
+```bash
 curl https://mlp-00-test.example.com/
 ```
 
