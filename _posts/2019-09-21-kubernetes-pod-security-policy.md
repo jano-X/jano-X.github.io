@@ -2,7 +2,7 @@
 layout: post                          # 表明是博文  
 title: "kubernetes容器安全策略"           # 博文的标题  
 subtitle: "[PodSecurityPolicy]的测试及使用"    # 博文的小标题  
-date: 2019-09-20                      # 博文的发表日期，此日期决定主页上博文的先后顺序  
+date: 2019-09-21                      # 博文的发表日期，此日期决定主页上博文的先后顺序  
 author: "jano X"                       # 博文的作者  
 header-img: "img/post-bg-cka.jpg"     # 博文页面上端的背景图片  
 header-mask: "0.1"                    # 博文页面上端的背景图片的亮度，数值越大越黑暗  
@@ -418,7 +418,7 @@ spec:
 
 以下给出建议的针对管理员使用的角色绑定配置:
 
-```
+```yml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:

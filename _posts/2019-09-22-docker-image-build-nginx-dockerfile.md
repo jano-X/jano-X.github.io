@@ -2,7 +2,7 @@
 layout: post                          # 表明是博文  
 title: "docker 镜像制作"           # 博文的标题  
 subtitle: "基于centos7.5制作nginx镜像"    # 博文的小标题  
-date: 2019-09-20                      # 博文的发表日期，此日期决定主页上博文的先后顺序  
+date: 2019-09-22                      # 博文的发表日期，此日期决定主页上博文的先后顺序  
 author: "jano X"                       # 博文的作者  
 header-img: "img/post-bg-cka.jpg"     # 博文页面上端的背景图片  
 header-mask: "0.1"                    # 博文页面上端的背景图片的亮度，数值越大越黑暗  
@@ -148,7 +148,7 @@ The command run by the container | Entrypoint | command
 The arguments passed to the command | Cmd | args
 
 容器部分配置如下 :
-```conf
+```yml
   spec:
       containers:
       - name: mynginx
