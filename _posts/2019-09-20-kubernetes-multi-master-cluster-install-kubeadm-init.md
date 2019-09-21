@@ -346,7 +346,7 @@ echo 'export KUBECONFIG=/opt/kubernetes/conf/admin.conf' >> /etc/profile
 source /etc/profile
 ```
 
-- 上传 `audit-policy.yml` 审计日志策略文件到 `/opt/kubernetes/conf/ `
+- 因为初始化时开启了审计，需上传 `audit-policy.yml` 审计日志策略文件到 `/opt/kubernetes/conf/ `
 
 ```bash
 cp /root/kubeadm/audit-policy.yml /opt/kubernetes/conf/
@@ -755,6 +755,7 @@ openssl x509 -pubkey -in /opt/kubernetes/conf/pki/ca.crt | openssl rsa -pubin -o
 ```
 
 <master-ip>:<master-port> 为负载均衡的IP和端口,对应端点为*apiserver*的安全端口
+
 ```bash
 k8s-test-104 操作
 kubeadm  join phase kubelet-start --token bp11t6.5zmwxk09fo11lgl0 172.16.20.244:6443 --discovery-token-ca-cert-hash sha256:35b5fa6085177e0c874cb048d4bf68adffd502102d1a153ecfc5e26f610cb13f 
@@ -767,11 +768,14 @@ mv /etc/kubernetes/*  /opt/kubernetes/conf/ -f
 ```
 
 - 启动kubelet
+
 ```bash
 systemctl  daemon-reload 
 systemctl restart kubelet
 ```
+
 - 检查worker节点是否配置成功
+
 ```bash
 #在master节点操作
 kubectl  get nodes
@@ -784,6 +788,7 @@ k8s-test-104   Ready    <none>   29m   v1.15.2
 kubectl label node k8s-test-104 node-role.kubernetes.io/node=
 ```
 #### 最后部署结果
+
 ```bash
 #在master节点操作
 [root@k8s-test-101 conf]# kubectl  get pods -n kube-system -owide
