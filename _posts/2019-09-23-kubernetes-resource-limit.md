@@ -1,7 +1,7 @@
 ---  
 layout: post                          # 表明是博文  
 title: "kubernetes的资源配额和限制"           # 博文的标题  
-subtitle: "通过ResourceQuota和LimitRange来实现对进群资源的限制"    # 博文的小标题  
+subtitle: "通过ResourceQuota和LimitRange来实现对集群资源的限制"    # 博文的小标题  
 date: 2019-09-23                     # 博文的发表日期，此日期决定主页上博文的先后顺序  
 author: "jano X"                       # 博文的作者  
 header-img: "img/post-bg-cka.jpg"     # 博文页面上端的背景图片  
