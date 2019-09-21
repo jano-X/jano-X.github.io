@@ -48,7 +48,7 @@ configure arguments: --prefix=/opt/nginx --with-http_ssl_module --with-pcre=/tmp
 ```
 
 nginx.conf 配置stream的支持:
-```conf
+```nginx
 stream{
 
     log_format  main  '$remote_addr - [$time_local] $connection '
@@ -62,7 +62,7 @@ stream{
 }
 ```
 stream/proxy.conf 如下:
-```conf
+```nginx
 #$ssl_preread_server_name #通过SNI请求的服务器名称
 map $ssl_preread_server_name $real_server {
     ~^mlp-[0-9][0-9]-test.example.com  apollo;
@@ -94,7 +94,7 @@ server {
 - 真实服务器配置支持备用域名请求
 
 新增配置如下：
-```conf
+```nginx
 server {
             listen 443;
             server_name    test.example.com ~^mlp-[0-9][0-9]-test.example.com;
